@@ -58,8 +58,13 @@ fws:
     - _fw_name: ScriptTask
       script: cp /path/to/RMG-fireworks/check.sh .
     - _fw_name: ScriptTask
-      script: ./check.sh eg1 ~/fw_sims/install/RMG-Py
+      script: ./check.sh eg1 ~/fw_sims/install/RMG-Py > check.log
       use_shell: true
+    - _fw_name: FileTransferTask
+      files:
+      - dest: ~/fw_sims/eg1/check.log
+        src: check.log
+      mode: copy
 links:
   1:
   - 3
