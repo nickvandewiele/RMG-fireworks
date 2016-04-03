@@ -1,5 +1,6 @@
 fws:
 - fw_id: 1 #install binaries of benchmark RMG
+  name: Install binaries
   spec:
     _tasks:
     - _fw_name: ScriptTask
@@ -7,6 +8,7 @@ fws:
     - _fw_name: ScriptTask
       script: ./install_binaries.sh 
 - fw_id: 2 # install (download source and compile) tested version of RMG-Py
+  name: Clone and compile source
   spec:
     _tasks:
     - _fw_name: ScriptTask
@@ -20,6 +22,7 @@ fws:
         src: .
       mode: copytree    
 - fw_id: 3 # run eg1 with benchmark RMG-Py
+  name: Run benchmark RMG on eg1
   spec:
     _tasks:
     - _fw_name: ScriptTask
@@ -33,6 +36,7 @@ fws:
         src: benchmark/
       mode: copytree
 - fw_id: 4 # run eg1 with tested RMG-Py
+  name: Run tested RMG on eg1
   spec:
     _tasks:
     - _fw_name: ScriptTask
@@ -46,6 +50,7 @@ fws:
         src: testmodel/
       mode: copytree
 - fw_id: 5 # check results of generated models
+  name: Check eg1
   spec:
     _tasks:
     - _fw_name: FileTransferTask
