@@ -3,6 +3,7 @@
 set -e
 
 TARGET=$1
+PROF=$3
 
 # clone RMG-tests:
 git clone https://github.com/ReactionMechanismGenerator/RMG-tests.git
@@ -24,4 +25,9 @@ rm -rf testmodel/*
 cp $INP testmodel/
 
 echo "Generating model with tested version of RMG-Py..."
-PYTHONPATH=$RMG:$PYTHONPATH python $RMG/rmg.py testmodel/$INP > /dev/null
+if [ $PROF == "--prof" ]; then
+	echo "Running with profiling: "$PROF
+	PYTHONPATH=$RMG:$PYTHONPATH python $RMG/rmg.py -p testmodel/$INP > /dev/null
+else
+	PYTHONPATH=$RMG:$PYTHONPATH python $RMG/rmg.py testmodel/$INP > /dev/null
+fi

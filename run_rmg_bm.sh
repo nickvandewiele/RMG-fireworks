@@ -1,6 +1,7 @@
 #!/bin/bash
 
 TARGET=$1
+PROF=$2
 
 # clone RMG-tests:
 git clone https://github.com/ReactionMechanismGenerator/RMG-tests.git
@@ -23,4 +24,11 @@ rm -rf benchmark/*
 cp $INP benchmark/
 
 echo "Generating model with benchmark version of RMG-Py..."
-python $BENCHMARK_RMG/rmg.py benchmark/$INP > /dev/null
+
+if [ "$PROF" == "--prof" ]; then
+	echo "Running with profiling: "$PROF
+	python $BENCHMARK_RMG/rmg.py -p benchmark/$INP > /dev/null
+else
+	python $BENCHMARK_RMG/rmg.py benchmark/$INP > /dev/null
+fi
+
