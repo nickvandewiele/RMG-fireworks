@@ -1,0 +1,82 @@
+fws:
+- fw_id: 1 #install binaries of benchmark RMG
+  name: Install binaries
+  spec:
+    _tasks:
+    - _fw_name: ScriptTask
+      script: cp {{ fw }}/install_binaries.sh .
+    - _fw_name: ScriptTask
+      script: ./install_binaries.sh 
+- fw_id: 2 # install (download source and compile) tested version of RMG-Py
+  name: Clone and compile source
+  spec:
+    _tasks:
+    - _fw_name: ScriptTask
+      script: cp {{ fw }}/install_source.sh .
+    - _fw_name: ScriptTask
+      script: ./install_source.sh 
+      use_shell: true
+    - _fw_name: FileTransferTask
+      files:
+      - dest: {{ wd }}/install/
+        src: .
+      mode: copytree {% for case in cases %}
+- fw_id: {{ case.i_bm }} # run {{ case.name }} with benchmark RMG-Py
+  name: Run benchmark RMG on {{ case.name }}
+  spec:
+    _tasks:
+    - _fw_name: ScriptTask
+      script: cp {{ fw }}/run_rmg_bm.sh .
+    - _fw_name: ScriptTask
+      script: ./run_rmg_bm.sh {{ case.name }}
+      use_shell: true
+    - _fw_name: FileTransferTask
+      files:
+      - dest: {{ wd }}/{{ case.name }}/benchmark/
+        src: benchmark/
+      mode: copytree
+- fw_id: {{ case.i_tt }} # run {{ case.name }} with tested RMG-Py
+  name: Run tested RMG on {{ case.name }}
+  spec:
+    _tasks:
+    - _fw_name: ScriptTask
+      script: cp {{ fw }}/run_rmg_tt.sh .
+    - _fw_name: ScriptTask
+      script: ./run_rmg_tt.sh {{ case.name }} {{ wd }}/install/RMG-Py
+      use_shell: true
+    - _fw_name: FileTransferTask
+      files:
+      - dest: {{ wd }}/{{ case.name }}/testmodel/
+        src: testmodel/
+      mode: copytree
+- fw_id: {{ case.i_ch }} # check results of generated models
+  name: Check {{ case.name }}
+  spec:
+    _tasks:
+    - _fw_name: FileTransferTask
+      files:
+      - dest: benchmark/
+        src: {{ wd }}/{{ case.name }}/benchmark/
+      - dest: testmodel/
+        src: {{ wd }}/{{ case.name }}/testmodel/
+      mode: copytree
+    - _fw_name: ScriptTask
+      script: cp {{ fw }}/check.sh .
+    - _fw_name: ScriptTask
+      script: ./check.sh {{ case.name }} {{ wd }}/install/RMG-Py > check.log
+      use_shell: true
+    - _fw_name: FileTransferTask
+      files:
+      - dest: {{ wd }}/{{ case.name }}/check.log
+        src: check.log
+      mode: copy {% endfor %}
+links:
+  1: {% for case in cases %}
+  - {{ case.i_bm }} {% endfor %}
+  2: {% for case in cases %}
+  - {{ case.i_tt }} {% endfor %}{% for case in cases %}
+  {{ case.i_bm }}:
+  - {{ case.i_ch }}
+  {{ case.i_tt }}:
+  - {{ case.i_ch }}{% endfor %}
+metadata: {}

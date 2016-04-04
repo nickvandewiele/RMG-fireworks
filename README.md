@@ -6,18 +6,18 @@ more information.
 
 Some instructions:
 
-1. Update the path to the RMG-fireworks directory in the `rmg.yaml` file.
+## Generate the RMG-fireworks workflow input file
+`python generate_yaml.py --wd=working_dir --fw=/path/to/RMG-fireworks`
 
-Replace:
-`/path/to/RMG-fireworks`
+This will generate `rmg.yaml`.
 
-2. Add the RMG-fireworks workflow:
+## Add the RMG-fireworks workflow:
 `lpad rmg.yaml`
 
-3. Run all the FireWorks:
+## Run all the FireWorks:
 `rlaunch rapidfire`
 
-4. Results will be printed to `~/fw_sims/`. Change it in the `rmg.yaml` file.
+## Results will be printed to `working_dir`.
 
 
 
