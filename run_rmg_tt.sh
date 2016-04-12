@@ -25,7 +25,7 @@ rm -rf testmodel/*
 cp $INP testmodel/
 
 echo "Generating model with tested version of RMG-Py..."
-if [ $PROF == "--prof" ]; then
+if [ "$PROF" == "--prof" ]; then
 	echo "Running with profiling: "$PROF
 	PYTHONPATH=$RMG:$PYTHONPATH python $RMG/rmg.py -p testmodel/$INP > /dev/null
 else
