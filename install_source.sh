@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # benchmark versions
 RMG_VERSION="1.0.4"
 DB_VERSION="1.1.0"

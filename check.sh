@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 target=$1
 
 # clone RMG-tests:
