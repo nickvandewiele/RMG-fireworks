@@ -4,6 +4,16 @@ set -e
 
 target=$1
 
+if [ -z ${3+x} ]; then 
+	echo "benchmark model location not set. Exiting..."
+	exit 1
+fi
+
+if [ -z ${4+x} ]; then 
+	echo "tested model location not set. Exiting..."
+	exit 1
+fi
+
 # clone RMG-tests:
 git clone https://github.com/ReactionMechanismGenerator/RMG-tests.git
 cp RMG-tests/examples/rmg/$1/*.py .
@@ -13,8 +23,8 @@ echo "test version of RMG: "$RMG
 
 source activate benchmark
 
-bm=benchmark
-testmod=testmodel
+bm=$3
+testmod=$4
 echo 'benchmark model folder: '$bm
 echo 'Test model folder: '$testmod
 

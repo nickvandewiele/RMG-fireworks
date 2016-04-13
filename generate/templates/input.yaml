@@ -63,7 +63,7 @@ fws:
     - _fw_name: ScriptTask
       script: cp {{ fw }}/check.sh .
     - _fw_name: ScriptTask
-      script: ./check.sh {{ case.name }} {{ wd }}/install/RMG-Py > check.log
+      script: ./check.sh {{ case.name }} {{ wd }}/install/RMG-Py benchmark/ testmodel/ > check.log
       use_shell: true
     - _fw_name: FileTransferTask
       files:
