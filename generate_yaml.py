@@ -21,8 +21,23 @@ def main(cases, wd, fireworks_install):
 
     template = env.get_template('input.yaml')
 
+    tasks = [
+        'i_bm',     # benchmark model
+        'i_tt',     # tested model
+        'i_sc',     # tested model with scoop
+        'i_ch',     # check tested model
+        'i_sc_ch'   # check tested model with scoop
+        ]
+
+    N = len(tasks)
     casedict = [
-                {'name': case, 'i_bm': (i+1)*3, 'i_tt': (i+1)*3+1, 'i_ch': (i+1)*3+2, }
+                {'name': case,
+                 tasks[0]: 3+i*N, 
+                 tasks[1]: 3+i*N+1, 
+                 tasks[2]: 3+i*N+2,
+                 tasks[3]: 3+i*N+3, 
+                 tasks[4]: 3+i*N+4
+                 }
                 for i, case in enumerate(cases)
                 ]
 
