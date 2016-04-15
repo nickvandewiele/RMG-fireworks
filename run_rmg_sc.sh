@@ -24,10 +24,13 @@ mkdir -p scoop
 rm -rf scoop/*
 cp $INP scoop/
 
+# create hosts file for scoop:
+hostname >> hosts
+
 echo "Generating model with tested version of RMG-Py..."
 if [ "$PROF" == "--prof" ]; then
 	echo "Running with profiling: "$PROF
-	PYTHONPATH=$RMG:$PYTHONPATH python -m scoop -n 4 $RMG/rmg.py -p scoop/$INP
+	PYTHONPATH=$RMG:$PYTHONPATH python -m scoop -n 4 --hostfile hosts $RMG/rmg.py -p scoop/$INP
 else
-	PYTHONPATH=$RMG:$PYTHONPATH python -m scoop -n 4 $RMG/rmg.py scoop/$INP
+	PYTHONPATH=$RMG:$PYTHONPATH python -m scoop -n 4 --hostfile hosts $RMG/rmg.py scoop/$INP
 fi
