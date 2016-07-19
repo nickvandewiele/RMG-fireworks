@@ -15,8 +15,7 @@ git clone -b $DB_VERSION --single-branch https://github.com/ReactionMechanismGen
 git clone https://github.com/ReactionMechanismGenerator/RMG-Py.git
 
 cd RMG-Py
-conda env remove --name tested -y
-conda env create -n tested
+conda create --name tested --clone rmg_env
 
 # set the RMG environment variable and add RMG-Py path to $PYTHONPATH:
 RMG=`pwd`
